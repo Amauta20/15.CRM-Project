@@ -1,0 +1,123 @@
+2025/10/13-18:35:39.924 1dbc Reusing MANIFEST C:\Python\12.InfoMensajes-Power\profiles\service_whatsapp\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/10/13-18:35:39.939 1dbc Recovering log #3261
+2025/10/13-18:35:39.961 1dbc Reusing old log C:\Python\12.InfoMensajes-Power\profiles\service_whatsapp\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/003261.log 
+2025/10/13-18:35:41.306 1a84 Level-0 table #3288: started
+2025/10/13-18:35:41.368 1a84 Level-0 table #3288: 920008 bytes OK
+2025/10/13-18:35:41.369 1a84 Delete type=0 #3261
+2025/10/13-18:35:41.370 52ec Manual compaction at level-0 from ' \x07\x01\x00\x00\x00' @ 72057594037927935 : 1 .. ' \x08\x01\x00\x00\x00' @ 0 : 0; will stop at ' \x07\x01\x00\x00\x05' @ 7171938 : 1
+2025/10/13-18:35:41.371 52ec Compacting 1@0 + 2@1 files
+2025/10/13-18:35:41.381 52ec Generated table #3289@0: 8267 keys, 128255 bytes
+2025/10/13-18:35:41.393 52ec Generated table #3290@0: 5372 keys, 422870 bytes
+2025/10/13-18:35:41.397 52ec Generated table #3291@0: 118 keys, 13571 bytes
+2025/10/13-18:35:41.397 52ec Compacted 1@0 + 2@1 files => 564696 bytes
+2025/10/13-18:35:41.398 52ec compacted to: files[ 0 3 42 0 0 0 0 ]
+2025/10/13-18:35:41.399 52ec Delete type=2 #3288
+2025/10/13-18:35:41.399 52ec Manual compaction at level-0 from ' \x07\x01\x00\x00\x05' @ 7171938 : 1 .. ' \x08\x01\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/10/13-18:35:42.516 1dbc Compacting 1@1 + 12@2 files
+2025/10/13-18:35:42.559 1dbc Generated table #3292@1: 26120 keys, 2210514 bytes
+2025/10/13-18:35:42.629 1dbc Generated table #3293@1: 27683 keys, 2269817 bytes
+2025/10/13-18:35:42.695 1dbc Generated table #3294@1: 28345 keys, 2265241 bytes
+2025/10/13-18:35:42.743 1dbc Generated table #3295@1: 34931 keys, 2196036 bytes
+2025/10/13-18:35:42.811 1dbc Generated table #3296@1: 16063 keys, 2255473 bytes
+2025/10/13-18:35:42.828 1dbc Generated table #3297@1: 6087 keys, 2132161 bytes
+2025/10/13-18:35:42.849 1dbc Generated table #3298@1: 4536 keys, 2123273 bytes
+2025/10/13-18:35:42.872 1dbc Generated table #3299@1: 5794 keys, 2124362 bytes
+2025/10/13-18:35:42.894 1dbc Generated table #3300@1: 4879 keys, 2124783 bytes
+2025/10/13-18:35:42.941 1dbc Generated table #3301@1: 106446 keys, 2257122 bytes
+2025/10/13-18:35:42.947 1dbc Generated table #3302@1: 4698 keys, 107593 bytes
+2025/10/13-18:35:42.947 1dbc Compacted 1@1 + 12@2 files => 22066375 bytes
+2025/10/13-18:35:42.948 1dbc compacted to: files[ 0 2 41 0 0 0 0 ]
+2025/10/13-18:35:42.949 1dbc Delete type=2 #3218
+2025/10/13-18:35:42.949 1dbc Delete type=2 #3219
+2025/10/13-18:35:42.949 1dbc Delete type=2 #3249
+2025/10/13-18:35:42.949 1dbc Delete type=2 #3250
+2025/10/13-18:35:42.949 1dbc Delete type=2 #3251
+2025/10/13-18:35:42.949 1dbc Delete type=2 #3252
+2025/10/13-18:35:42.949 1dbc Delete type=2 #3265
+2025/10/13-18:35:42.949 1dbc Delete type=2 #3266
+2025/10/13-18:35:42.949 1dbc Delete type=2 #3272
+2025/10/13-18:35:42.949 1dbc Delete type=2 #3273
+2025/10/13-18:35:42.949 1dbc Delete type=2 #3274
+2025/10/13-18:35:42.949 1dbc Delete type=2 #3275
+2025/10/13-18:35:42.950 1dbc Delete type=2 #3276
+2025/10/13-18:35:42.950 1dbc Delete type=2 #3277
+2025/10/13-18:35:42.950 1dbc Delete type=2 #3290
+2025/10/13-18:35:43.279 1dbc Compacting 1@1 + 7@2 files
+2025/10/13-18:35:43.332 1dbc Generated table #3303@1: 87808 keys, 2237808 bytes
+2025/10/13-18:35:43.439 1dbc Generated table #3304@1: 65546 keys, 2259694 bytes
+2025/10/13-18:35:43.549 1dbc Generated table #3305@1: 26668 keys, 2183819 bytes
+2025/10/13-18:35:43.662 1dbc Generated table #3306@1: 61329 keys, 2222897 bytes
+2025/10/13-18:35:43.705 1dbc Generated table #3307@1: 42991 keys, 2210028 bytes
+2025/10/13-18:35:43.790 1dbc Generated table #3308@1: 1610 keys, 2143984 bytes
+2025/10/13-18:35:43.813 1dbc Generated table #3309@1: 1913 keys, 2149418 bytes
+2025/10/13-18:35:43.816 1dbc Generated table #3310@1: 19 keys, 13424 bytes
+2025/10/13-18:35:43.816 1dbc Compacted 1@1 + 7@2 files => 15421072 bytes
+2025/10/13-18:35:43.817 1dbc compacted to: files[ 0 1 42 0 0 0 0 ]
+2025/10/13-18:35:43.817 1dbc Delete type=2 #3278
+2025/10/13-18:35:43.817 1dbc Delete type=2 #3279
+2025/10/13-18:35:43.817 1dbc Delete type=2 #3280
+2025/10/13-18:35:43.817 1dbc Delete type=2 #3281
+2025/10/13-18:35:43.818 1dbc Delete type=2 #3282
+2025/10/13-18:35:43.818 1dbc Delete type=2 #3283
+2025/10/13-18:35:43.818 1dbc Delete type=2 #3284
+2025/10/13-18:35:43.818 1dbc Delete type=2 #3289
+2025/10/13-18:35:45.486 1dbc Compacting 1@1 + 3@2 files
+2025/10/13-18:35:45.540 1dbc Generated table #3311@1: 98574 keys, 2246680 bytes
+2025/10/13-18:35:45.591 1dbc Generated table #3312@1: 98400 keys, 2248734 bytes
+2025/10/13-18:35:45.599 1dbc Generated table #3313@1: 7934 keys, 295797 bytes
+2025/10/13-18:35:45.599 1dbc Compacted 1@1 + 3@2 files => 4791211 bytes
+2025/10/13-18:35:45.600 1dbc compacted to: files[ 0 0 42 0 0 0 0 ]
+2025/10/13-18:35:45.600 1dbc Delete type=2 #3258
+2025/10/13-18:35:45.600 1dbc Delete type=2 #3259
+2025/10/13-18:35:45.600 1dbc Delete type=2 #3260
+2025/10/13-18:35:45.601 1dbc Delete type=2 #3291
+2025/10/13-18:35:49.437 1dbc Level-0 table #3315: started
+2025/10/13-18:35:49.453 1dbc Level-0 table #3315: 1116005 bytes OK
+2025/10/13-18:35:49.454 1dbc Delete type=0 #3287
+2025/10/13-18:35:49.518 1dbc Compacting 1@0 + 0@1 files
+2025/10/13-18:35:49.537 1dbc Generated table #3316@0: 17516 keys, 323323 bytes
+2025/10/13-18:35:49.548 1dbc Generated table #3317@0: 4403 keys, 290771 bytes
+2025/10/13-18:35:49.551 1dbc Generated table #3318@0: 50 keys, 5433 bytes
+2025/10/13-18:35:49.552 1dbc Compacted 1@0 + 0@1 files => 619527 bytes
+2025/10/13-18:35:49.553 1dbc compacted to: files[ 0 3 42 0 0 0 0 ]
+2025/10/13-18:35:49.553 1dbc Delete type=2 #3315
+2025/10/13-18:35:49.605 52ec Compacting 1@1 + 10@2 files
+2025/10/13-18:35:49.630 52ec Generated table #3319@1: 2378 keys, 2140701 bytes
+2025/10/13-18:35:49.648 52ec Generated table #3320@1: 2083 keys, 2141183 bytes
+2025/10/13-18:35:49.661 52ec Generated table #3321@1: 821 keys, 2125076 bytes
+2025/10/13-18:35:49.673 52ec Generated table #3322@1: 1182 keys, 2128903 bytes
+2025/10/13-18:35:49.709 52ec Generated table #3323@1: 26121 keys, 2210580 bytes
+2025/10/13-18:35:49.760 52ec Generated table #3324@1: 27685 keys, 2269748 bytes
+2025/10/13-18:35:49.808 52ec Generated table #3325@1: 28346 keys, 2265193 bytes
+2025/10/13-18:35:49.847 52ec Generated table #3326@1: 34944 keys, 2196235 bytes
+2025/10/13-18:35:49.888 52ec Generated table #3327@1: 16063 keys, 2255495 bytes
+2025/10/13-18:35:49.906 52ec Generated table #3328@1: 6058 keys, 2130676 bytes
+2025/10/13-18:35:49.908 52ec Generated table #3329@1: 33 keys, 4891 bytes
+2025/10/13-18:35:49.908 52ec Compacted 1@1 + 10@2 files => 21868681 bytes
+2025/10/13-18:35:49.909 52ec compacted to: files[ 0 2 43 0 0 0 0 ]
+2025/10/13-18:35:49.910 52ec Delete type=2 #3268
+2025/10/13-18:35:49.910 52ec Delete type=2 #3269
+2025/10/13-18:35:49.910 52ec Delete type=2 #3270
+2025/10/13-18:35:49.910 52ec Delete type=2 #3271
+2025/10/13-18:35:49.910 52ec Delete type=2 #3292
+2025/10/13-18:35:49.910 52ec Delete type=2 #3293
+2025/10/13-18:35:49.910 52ec Delete type=2 #3294
+2025/10/13-18:35:49.910 52ec Delete type=2 #3295
+2025/10/13-18:35:49.910 52ec Delete type=2 #3296
+2025/10/13-18:35:49.910 52ec Delete type=2 #3297
+2025/10/13-18:35:49.910 52ec Delete type=2 #3317
+2025/10/13-18:35:51.245 1dbc Compacting 1@1 + 5@2 files
+2025/10/13-18:35:51.297 1dbc Generated table #3330@1: 87642 keys, 2238240 bytes
+2025/10/13-18:35:51.332 1dbc Generated table #3331@1: 68406 keys, 2261633 bytes
+2025/10/13-18:35:51.372 1dbc Generated table #3332@1: 27050 keys, 2185064 bytes
+2025/10/13-18:35:51.418 1dbc Generated table #3333@1: 59770 keys, 2220610 bytes
+2025/10/13-18:35:51.460 1dbc Generated table #3334@1: 45880 keys, 2211914 bytes
+2025/10/13-18:35:51.464 1dbc Generated table #3335@1: 81 keys, 104707 bytes
+2025/10/13-18:35:51.464 1dbc Compacted 1@1 + 5@2 files => 11222168 bytes
+2025/10/13-18:35:51.464 1dbc compacted to: files[ 0 1 44 0 0 0 0 ]
+2025/10/13-18:35:51.465 1dbc Delete type=2 #3303
+2025/10/13-18:35:51.465 1dbc Delete type=2 #3304
+2025/10/13-18:35:51.465 1dbc Delete type=2 #3305
+2025/10/13-18:35:51.465 1dbc Delete type=2 #3306
+2025/10/13-18:35:51.465 1dbc Delete type=2 #3307
+2025/10/13-18:35:51.465 1dbc Delete type=2 #3316

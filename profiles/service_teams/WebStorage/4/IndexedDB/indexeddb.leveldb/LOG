@@ -1,0 +1,25 @@
+2025/10/13-18:35:40.417 52ec Reusing MANIFEST C:\Python\12.InfoMensajes-Power\profiles\service_teams\WebStorage\4\IndexedDB\indexeddb.leveldb/MANIFEST-000001
+2025/10/13-18:35:40.428 52ec Recovering log #29
+2025/10/13-18:35:40.429 52ec Reusing old log C:\Python\12.InfoMensajes-Power\profiles\service_teams\WebStorage\4\IndexedDB\indexeddb.leveldb/000029.log 
+2025/10/13-18:35:40.429 52ec Delete type=2 #28
+2025/10/13-18:35:40.436 52ec Level-0 table #34: started
+2025/10/13-18:35:40.443 52ec Level-0 table #34: 218898 bytes OK
+2025/10/13-18:35:40.444 52ec Delete type=0 #29
+2025/10/13-18:35:40.445 52ec Manual compaction at level-0 from '\x00\x0d\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x0e\x00\x00\x00' @ 0 : 0; will stop at '\x00\x0d\x00\x00\x05' @ 6591 : 1
+2025/10/13-18:35:40.445 52ec Compacting 1@0 + 1@1 files
+2025/10/13-18:35:40.453 52ec Generated table #35@0: 2891 keys, 289320 bytes
+2025/10/13-18:35:40.454 52ec Compacted 1@0 + 1@1 files => 289320 bytes
+2025/10/13-18:35:40.454 52ec compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/10/13-18:35:40.455 52ec Delete type=2 #34
+2025/10/13-18:35:40.455 52ec Manual compaction at level-0 from '\x00\x0d\x00\x00\x05' @ 6591 : 1 .. '\x00\x0e\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/10/13-18:35:42.363 52ec Level-0 table #37: started
+2025/10/13-18:35:42.378 52ec Level-0 table #37: 530 bytes OK
+2025/10/13-18:35:42.380 52ec Delete type=2 #31
+2025/10/13-18:35:42.380 52ec Delete type=0 #33
+2025/10/13-18:35:42.381 52ec Manual compaction at level-0 from '\x00\x0e\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x0f\x00\x00\x00' @ 0 : 0; will stop at '\x00\x0e\x00\x00\x05' @ 6609 : 1
+2025/10/13-18:35:42.381 52ec Compacting 1@0 + 1@1 files
+2025/10/13-18:35:42.387 52ec Generated table #38@0: 2891 keys, 289316 bytes
+2025/10/13-18:35:42.387 52ec Compacted 1@0 + 1@1 files => 289316 bytes
+2025/10/13-18:35:42.388 52ec compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/10/13-18:35:42.389 52ec Delete type=2 #37
+2025/10/13-18:35:42.389 52ec Manual compaction at level-0 from '\x00\x0e\x00\x00\x05' @ 6609 : 1 .. '\x00\x0f\x00\x00\x00' @ 0 : 0; will stop at (end)

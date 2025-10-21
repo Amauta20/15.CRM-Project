@@ -1,0 +1,6 @@
+2025/10/13-18:35:29.583 1f94 Reusing MANIFEST C:\Python\12.InfoMensajes-Power\profiles\service_teams\Local Storage\leveldb/MANIFEST-000001
+2025/10/13-18:35:29.609 1f94 Recovering log #46
+2025/10/13-18:35:29.610 1f94 Reusing old log C:\Python\12.InfoMensajes-Power\profiles\service_teams\Local Storage\leveldb/000046.log 
+2025/10/13-18:35:45.337 1dbc Level-0 table #50: started
+2025/10/13-18:35:45.346 1dbc Level-0 table #50: 115768 bytes OK
+2025/10/13-18:35:45.348 1dbc Delete type=0 #46

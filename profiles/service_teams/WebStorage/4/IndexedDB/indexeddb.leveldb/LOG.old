@@ -1,0 +1,25 @@
+2025/10/13-18:28:39.403 a4c Reusing MANIFEST C:\Python\12.InfoMensajes-Power\profiles\service_teams\WebStorage\4\IndexedDB\indexeddb.leveldb/MANIFEST-000001
+2025/10/13-18:28:39.416 a4c Recovering log #22
+2025/10/13-18:28:39.416 a4c Reusing old log C:\Python\12.InfoMensajes-Power\profiles\service_teams\WebStorage\4\IndexedDB\indexeddb.leveldb/000022.log 
+2025/10/13-18:28:39.417 a4c Delete type=2 #20
+2025/10/13-18:28:39.578 a4c Level-0 table #27: started
+2025/10/13-18:28:39.584 a4c Level-0 table #27: 189199 bytes OK
+2025/10/13-18:28:39.586 a4c Delete type=0 #22
+2025/10/13-18:28:39.587 a4c Manual compaction at level-0 from '\x00\x0b\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x0c\x00\x00\x00' @ 0 : 0; will stop at '\x00\x0b\x00\x00\x05' @ 5709 : 1
+2025/10/13-18:28:39.587 a4c Compacting 1@0 + 1@1 files
+2025/10/13-18:28:39.597 a4c Generated table #28@0: 2770 keys, 292908 bytes
+2025/10/13-18:28:39.597 a4c Compacted 1@0 + 1@1 files => 292908 bytes
+2025/10/13-18:28:39.598 a4c compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/10/13-18:28:39.599 a4c Delete type=2 #27
+2025/10/13-18:28:39.599 a4c Manual compaction at level-0 from '\x00\x0b\x00\x00\x05' @ 5709 : 1 .. '\x00\x0c\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/10/13-18:28:41.589 5e38 Level-0 table #30: started
+2025/10/13-18:28:41.601 5e38 Level-0 table #30: 530 bytes OK
+2025/10/13-18:28:41.603 5e38 Delete type=2 #24
+2025/10/13-18:28:41.603 5e38 Delete type=0 #26
+2025/10/13-18:28:41.604 5e38 Manual compaction at level-0 from '\x00\x0c\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x0d\x00\x00\x00' @ 0 : 0; will stop at '\x00\x0c\x00\x00\x05' @ 5727 : 1
+2025/10/13-18:28:41.604 5e38 Compacting 1@0 + 1@1 files
+2025/10/13-18:28:41.611 5e38 Generated table #31@0: 2770 keys, 292905 bytes
+2025/10/13-18:28:41.611 5e38 Compacted 1@0 + 1@1 files => 292905 bytes
+2025/10/13-18:28:41.612 5e38 compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/10/13-18:28:41.613 5e38 Delete type=2 #30
+2025/10/13-18:28:41.613 a4c Manual compaction at level-0 from '\x00\x0c\x00\x00\x05' @ 5727 : 1 .. '\x00\x0d\x00\x00\x00' @ 0 : 0; will stop at (end)

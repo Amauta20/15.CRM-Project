@@ -1,0 +1,33 @@
+# Virtualenv
+venv/
+.venv/
+env/
+*.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Build artifacts
+build/
+dist/
+*.spec
+*.egg-info/
+
+# IDE / Editor specific
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Local config
+local_settings.py
+
+# Secrets
+secret.key
+*.key
