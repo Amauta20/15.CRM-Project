@@ -5,6 +5,7 @@ from app.ui.add_account_dialog import AddAccountDialog
 from app.ui.edit_account_dialog import EditAccountDialog
 from PyQt6.QtGui import QIcon
 from app.data import settings_manager
+import qtawesome as qta
 from datetime import datetime
 
 class AccountsWidget(QWidget):
@@ -94,13 +95,13 @@ class AccountsWidget(QWidget):
             actions_layout = QHBoxLayout(actions_widget)
             
             edit_button = QPushButton()
-            edit_button.setIcon(QIcon("assets/edit.png"))  # Assuming you have an edit icon
+            edit_button.setIcon(qta.icon('fa5s.pencil-alt', color='white'))  # Font Awesome edit icon
             edit_button.setToolTip("Editar")
             edit_button.clicked.connect(lambda _, r=account["id"]: self.edit_account(r))
             actions_layout.addWidget(edit_button)
 
             delete_button = QPushButton()
-            delete_button.setIcon(QIcon("assets/delete.png"))  # Assuming you have a delete icon
+            delete_button.setIcon(qta.icon('fa5s.trash-alt', color='white'))  # Font Awesome delete icon
             delete_button.setToolTip("Eliminar")
             delete_button.clicked.connect(lambda _, r=account["id"]: self.delete_account(r))
             actions_layout.addWidget(delete_button)

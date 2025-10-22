@@ -24,13 +24,6 @@ def main():
 
     # Initialize metrics manager after schema is created
     global_metrics_manager = MetricsManager.get_instance()
-
-    db_path = os.path.join(os.getcwd(), "infomensajero.db")
-    print(f"Checking for database at: {db_path}")
-    if os.path.exists(db_path):
-        print("Database file found.")
-    else:
-        print("Database file NOT found.")
     
 
     app = QApplication(sys.argv)

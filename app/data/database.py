@@ -9,7 +9,7 @@ def get_app_data_dir():
     return app_data_dir
 
 # Define the path for the database in the app data directory
-DB_FILE = get_app_data_dir() / "infomensajero.db"
+DB_FILE = get_app_data_dir() / "crm.db"
 
 def get_db_connection():
     """Creates a database connection."""
@@ -47,6 +47,48 @@ def create_schema():
         phone TEXT,
         address TEXT,
         notes TEXT,
+        classification TEXT,
+        status TEXT,
+        created_at TEXT,
+        updated_at TEXT,
+        is_deleted INTEGER DEFAULT 0,
+        deleted_at TEXT,
+        deleted_by INTEGER
+    );
+    """)
+
+    # Table for contacts
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS contacts (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        company TEXT,
+        email TEXT,
+        phone TEXT,
+        address TEXT,
+        notes TEXT,
+        referred_by TEXT,
+        classification TEXT,
+        status TEXT,
+        created_at TEXT,
+        updated_at TEXT,
+        is_deleted INTEGER DEFAULT 0,
+        deleted_at TEXT,
+        deleted_by INTEGER
+    );
+    """)
+
+    # Table for contacts
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS contacts (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        company TEXT,
+        email TEXT,
+        phone TEXT,
+        address TEXT,
+        notes TEXT,
+        referred_by TEXT,
         classification TEXT,
         status TEXT,
         created_at TEXT,
