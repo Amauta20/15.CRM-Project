@@ -39,6 +39,12 @@ class AddAccountDialog(QDialog):
         self.layout.addWidget(self.address_label)
         self.layout.addWidget(self.address_input)
 
+        # Referred By
+        self.referred_by_label = QLabel("Referido por:")
+        self.referred_by_input = QLineEdit()
+        self.layout.addWidget(self.referred_by_label)
+        self.layout.addWidget(self.referred_by_input)
+
         # Classification
         self.classification_label = QLabel("Clasificación:")
         self.classification_combo = QComboBox()
@@ -88,6 +94,7 @@ class AddAccountDialog(QDialog):
             self.phone_input.text().strip() if self.phone_input.text().strip() else None,
             self.address_input.text().strip() if self.address_input.text().strip() else None,
             self.notes_input.toPlainText().strip() if self.notes_input.toPlainText().strip() else None,
+            self.referred_by_input.text().strip() if self.referred_by_input.text().strip() else None,
             self.classification_combo.currentText(),
             self.status_combo.currentText()
         )

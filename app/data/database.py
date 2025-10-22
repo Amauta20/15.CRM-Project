@@ -70,6 +70,8 @@ def create_schema():
         cursor.execute("ALTER TABLE accounts ADD COLUMN classification TEXT;")
     if 'status' not in columns:
         cursor.execute("ALTER TABLE accounts ADD COLUMN status TEXT;")
+    if 'referred_by' not in columns:
+        cursor.execute("ALTER TABLE accounts ADD COLUMN referred_by TEXT;")
 
     # Add new columns to services if they don't exist
     cursor.execute("PRAGMA table_info(services);")
