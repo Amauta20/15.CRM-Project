@@ -1,90 +1,114 @@
-from PyQt6.QtWidgets import QDialog, QVBoxLayout, QFormLayout, QLineEdit, QPushButton, QMessageBox, QComboBox
+from PyQt6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QTextEdit, QComboBox, QCheckBox
+from app.data import accounts_manager
 from PyQt6.QtCore import Qt
+from app.data import contacts_manager
 
 class EditContactDialog(QDialog):
-    def __init__(self, contact, parent=None):
+    def __init__(self, contact_data, parent=None):
         super().__init__(parent)
-        self.contact = contact
-        self.setWindowTitle("Editar Contacto")
+        self.setWindowTitle(f"Editar Contacto: {contact_data['name']}")
+        self.contact_data = contact_data
         self.init_ui()
         self.load_contact_data()
 
     def init_ui(self):
         self.layout = QVBoxLayout(self)
-        self.form_layout = QFormLayout()
+        self.load_accounts()
 
+    def load_accounts(self):
+        self.account_combo.clear()
+        self.account_combo.addItem("Ninguna", None) # Option for no account
+        accounts = accounts_manager.get_all_accounts()
+        for account in accounts:
+            self.account_combo.addItem(account["name"], account["id"])
+
+        # Name
+        self.name_label = QLabel("Nombre del Contacto:")
         self.name_input = QLineEdit()
-        self.name_input.setPlaceholderText("Nombre del Contacto")
-        self.form_layout.addRow("Nombre:", self.name_input)
+        self.layout.addWidget(self.name_label)
+        self.layout.addWidget(self.name_input)
 
+        # Company
+        self.company_label = QLabel("Empresa:")
         self.company_input = QLineEdit()
-        self.company_input.setPlaceholderText("Empresa")
-        self.form_layout.addRow("Empresa:", self.company_input)
+        self.layout.addWidget(self.company_label)
+        self.layout.addWidget(self.company_input)
 
+        # Email
+        self.email_label = QLabel("Email:")
         self.email_input = QLineEdit()
-        self.email_input.setPlaceholderText("Email")
-        self.form_layout.addRow("Email:", self.email_input)
+        self.layout.addWidget(self.email_label)
+        self.layout.addWidget(self.email_input)
 
+        # Phone
+        self.phone_label = QLabel("Teléfono:")
         self.phone_input = QLineEdit()
-        self.phone_input.setPlaceholderText("Teléfono")
-        self.form_layout.addRow("Teléfono:", self.phone_input)
+        self.layout.addWidget(self.phone_label)
+        self.layout.addWidget(self.phone_input)
 
-        self.address_input = QLineEdit()
-        self.address_input.setPlaceholderText("Dirección")
-        self.form_layout.addRow("Dirección:", self.address_input)
 
-        self.notes_input = QLineEdit()
-        self.notes_input.setPlaceholderText("Notas")
-        self.form_layout.addRow("Notas:", self.notes_input)
 
+        # Referred By
+        self.referred_by_label = QLabel("Referido por:")
         self.referred_by_input = QLineEdit()
-        self.referred_by_input.setPlaceholderText("Referido por")
-        self.form_layout.addRow("Referido por:", self.referred_by_input)
+        self.layout.addWidget(self.referred_by_label)
+        self.layout.addWidget(self.referred_by_input)
 
-        self.classification_combo = QComboBox()
-        self.classification_combo.addItems(["Lead", "Cliente"])
-        self.form_layout.addRow("Clasificación:", self.classification_combo)
+        # Account
+        self.account_label = QLabel("Cuenta:")
+        self.account_combo = QComboBox()
+        self.layout.addWidget(self.account_label)
+        self.layout.addWidget(self.account_combo)
 
-        self.status_combo = QComboBox()
-        self.status_combo.addItems(["Por contactar", "Contactado", "Calificado", "No calificado"])
-        self.form_layout.addRow("Estado:", self.status_combo)
+        # Confirmed
+        self.confirmed_checkbox = QCheckBox("Confirmado")
+        self.layout.addWidget(self.confirmed_checkbox)
 
-        self.classification_combo.currentTextChanged.connect(self.update_status_options)
+        # Notes
+        self.notes_label = QLabel("Notas:")
+        self.notes_input = QTextEdit()
+        self.layout.addWidget(self.notes_label)
+        self.layout.addWidget(self.notes_input)
 
-        self.layout.addLayout(self.form_layout)
-
-        self.save_button = QPushButton("Guardar")
+        # Buttons
+        self.buttons_layout = QHBoxLayout()
+        self.save_button = QPushButton("Guardar Cambios")
         self.save_button.clicked.connect(self.accept)
-        self.layout.addWidget(self.save_button)
+        self.buttons_layout.addWidget(self.save_button)
+
+        self.cancel_button = QPushButton("Cancelar")
+        self.cancel_button.clicked.connect(self.reject)
+        self.buttons_layout.addWidget(self.cancel_button)
+
+        self.layout.addLayout(self.buttons_layout)
 
     def load_contact_data(self):
-        self.name_input.setText(self.contact["name"])
-        self.company_input.setText(self.contact["company"])
-        self.email_input.setText(self.contact["email"])
-        self.phone_input.setText(self.contact["phone"])
-        self.address_input.setText(self.contact["address"])
-        self.notes_input.setText(self.contact["notes"])
-        self.referred_by_input.setText(self.contact["referred_by"])
-        self.classification_combo.setCurrentText(self.contact["classification"])
-        self.update_status_options(self.contact["classification"])
-        self.status_combo.setCurrentText(self.contact["status"])
+        self.name_input.setText(self.contact_data["name"])
+        self.company_input.setText(self.contact_data["company"] or "")
+        self.email_input.setText(self.contact_data["email"] or "")
+        self.phone_input.setText(self.contact_data["phone"] or "")
+        self.referred_by_input.setText(self.contact_data["referred_by"] or "")
+        self.notes_input.setPlainText(self.contact_data["notes"] or "")
+        self.confirmed_checkbox.setChecked(self.contact_data["confirmed"] == 1)
 
-    def update_status_options(self, classification):
-        self.status_combo.clear()
-        if classification == "Lead":
-            self.status_combo.addItems(["Por contactar", "Contactado", "Calificado", "No calificado"])
-        else:
-            self.status_combo.addItems(["Activo", "Inactivo"])
+        # Set current account
+        accounts = contacts_manager.get_accounts_for_contact(self.contact_data["id"])
+        if accounts:
+            account_id = accounts[0]["id"]
+            index = self.account_combo.findData(account_id)
+            if index != -1:
+                self.account_combo.setCurrentIndex(index)
+
+
 
     def get_contact_data(self):
         return (
-            self.name_input.text(),
-            self.company_input.text(),
-            self.email_input.text(),
-            self.phone_input.text(),
-            self.address_input.text(),
-            self.notes_input.text(),
-            self.referred_by_input.text(),
-            self.classification_combo.currentText(),
-            self.status_combo.currentText()
+            self.name_input.text().strip(),
+            self.company_input.text().strip() if self.company_input.text().strip() else None,
+            self.email_input.text().strip() if self.email_input.text().strip() else None,
+            self.phone_input.text().strip() if self.phone_input.text().strip() else None,
+            self.notes_input.toPlainText().strip() if self.notes_input.toPlainText().strip() else None,
+            self.referred_by_input.text().strip() if self.referred_by_input.text().strip() else None,
+            1 if self.confirmed_checkbox.isChecked() else 0,
+            self.account_combo.currentData()
         )

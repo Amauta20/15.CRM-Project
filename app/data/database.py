@@ -65,11 +65,8 @@ def create_schema():
         company TEXT,
         email TEXT,
         phone TEXT,
-        address TEXT,
         notes TEXT,
         referred_by TEXT,
-        classification TEXT,
-        status TEXT,
         created_at TEXT,
         updated_at TEXT,
         is_deleted INTEGER DEFAULT 0,
@@ -78,24 +75,20 @@ def create_schema():
     );
     """)
 
-    # Table for contacts
+    # Add new columns to contacts if they don't exist
+    cursor.execute("PRAGMA table_info(contacts);")
+    columns = [col[1] for col in cursor.fetchall()]
+    if 'confirmed' not in columns:
+        cursor.execute("ALTER TABLE contacts ADD COLUMN confirmed INTEGER DEFAULT 0;")
+
+    # Table for contact-account relationships (many-to-many)
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS contacts (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        company TEXT,
-        email TEXT,
-        phone TEXT,
-        address TEXT,
-        notes TEXT,
-        referred_by TEXT,
-        classification TEXT,
-        status TEXT,
-        created_at TEXT,
-        updated_at TEXT,
-        is_deleted INTEGER DEFAULT 0,
-        deleted_at TEXT,
-        deleted_by INTEGER
+    CREATE TABLE IF NOT EXISTS contact_accounts (
+        contact_id INTEGER NOT NULL,
+        account_id INTEGER NOT NULL,
+        PRIMARY KEY (contact_id, account_id),
+        FOREIGN KEY (contact_id) REFERENCES contacts (id) ON DELETE CASCADE,
+        FOREIGN KEY (account_id) REFERENCES accounts (id) ON DELETE CASCADE
     );
     """)
 

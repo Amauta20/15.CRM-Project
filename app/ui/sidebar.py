@@ -13,6 +13,7 @@ class Sidebar(QWidget):
     show_kanban_requested = Signal() # New signal to show KanbanWidget
     show_checklist_requested = Signal() # New signal to show ChecklistWidget
     show_accounts_requested = Signal() # New signal to show AccountsWidget
+    show_contacts_requested = Signal() # New signal to show ContactsWidget
 
     def __init__(self):
         super().__init__()
@@ -56,6 +57,10 @@ class Sidebar(QWidget):
         self.accounts_button = QPushButton("Cuentas")
         self.accounts_button.clicked.connect(self.show_accounts_requested.emit)
         self.layout.addWidget(self.accounts_button)
+
+        self.contacts_button = QPushButton("Contactos")
+        self.contacts_button.clicked.connect(self.show_contacts_requested.emit)
+        self.layout.addWidget(self.contacts_button)
 
     # --- Service Management Methods ---
     def open_select_service_dialog(self):
