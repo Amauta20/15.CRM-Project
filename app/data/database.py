@@ -4,7 +4,7 @@ from pathlib import Path
 
 def get_app_data_dir():
     """Gets the application data directory and creates it if it doesn't exist."""
-    app_data_dir = Path(os.getenv('APPDATA')) / 'InfoMensajes-Power'
+    app_data_dir = Path(os.getcwd())
     app_data_dir.mkdir(parents=True, exist_ok=True)
     return app_data_dir
 
@@ -62,7 +62,6 @@ def create_schema():
     CREATE TABLE IF NOT EXISTS contacts (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
-        company TEXT,
         email TEXT,
         phone TEXT,
         notes TEXT,
@@ -80,6 +79,8 @@ def create_schema():
     columns = [col[1] for col in cursor.fetchall()]
     if 'confirmed' not in columns:
         cursor.execute("ALTER TABLE contacts ADD COLUMN confirmed INTEGER DEFAULT 0;")
+    if 'company' in columns:
+        print("Warning: The 'company' column still exists in the 'contacts' table. Please consider migrating your database to remove it manually if you have existing data.")
 
     # Table for contact-account relationships (many-to-many)
     cursor.execute("""
@@ -307,6 +308,62 @@ def create_schema():
         name TEXT NOT NULL,
         url TEXT NOT NULL UNIQUE
     );
+    """)
+
+    # Table for opportunities
+    cursor.execute("DROP TABLE IF EXISTS opportunities;")
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS opportunities (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        account_id INTEGER,
+        contact_id INTEGER,
+        title TEXT NOT NULL,
+        requirement TEXT,
+        conditions TEXT,
+        amount REAL,
+        currency TEXT,
+        status TEXT,
+        phase TEXT,
+        owner_user_id INTEGER,
+        created_at TEXT,
+        updated_at TEXT,
+        is_deleted INTEGER DEFAULT 0,
+        deleted_at TEXT,
+        deleted_by INTEGER,
+        proposal_path TEXT,
+        drive_folder_id TEXT,
+        delivery_date TEXT,
+        success_probability REAL,
+        FOREIGN KEY (account_id) REFERENCES accounts (id) ON DELETE SET NULL,
+        FOREIGN KEY (contact_id) REFERENCES contacts (id) ON DELETE SET NULL
+    );
+    """)
+
+    # FTS table for opportunities
+    cursor.execute("DROP TABLE IF EXISTS opportunities_fts;")
+    cursor.execute("CREATE VIRTUAL TABLE IF NOT EXISTS opportunities_fts USING fts5(title, requirement, tokenize = 'porter unicode61');")
+
+    # Triggers to keep opportunities_fts synchronized
+    cursor.execute("DROP TRIGGER IF EXISTS opportunities_after_insert;")
+    cursor.execute("""
+        CREATE TRIGGER IF NOT EXISTS opportunities_after_insert AFTER INSERT ON opportunities BEGIN
+            INSERT INTO opportunities_fts(rowid, title, requirement) VALUES (new.id, COALESCE(new.title, ''), COALESCE(new.requirement, ''));
+        END;
+    """)
+
+    cursor.execute("DROP TRIGGER IF EXISTS opportunities_after_delete;")
+    cursor.execute("""
+        CREATE TRIGGER IF NOT EXISTS opportunities_after_delete AFTER DELETE ON opportunities BEGIN
+            DELETE FROM opportunities_fts WHERE rowid = old.id;
+        END;
+    """)
+
+    cursor.execute("DROP TRIGGER IF EXISTS opportunities_after_update;")
+    cursor.execute("""
+        CREATE TRIGGER IF NOT EXISTS opportunities_after_update AFTER UPDATE ON opportunities BEGIN
+            DELETE FROM opportunities_fts WHERE rowid = old.id;
+            INSERT INTO opportunities_fts(rowid, title, requirement) VALUES(new.id, COALESCE(new.title, ''), COALESCE(new.requirement, ''));
+        END;
     """)
 
     conn.commit()

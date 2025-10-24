@@ -22,6 +22,7 @@ from app.ui.checklist_widget import ChecklistWidget
 from app.metrics.metrics_manager import MetricsManager
 from app.ui.accounts_widget import AccountsWidget # New import
 from app.ui.contacts_widget import ContactsWidget # New import
+from app.opportunities.opportunities_widget import OpportunitiesWidget
 
 from app.ui.select_service_dialog import SelectServiceDialog
 from app.ui.unified_settings_dialog import UnifiedSettingsDialog
@@ -225,6 +226,10 @@ class MainWindow(QMainWindow):
         self.contacts_widget = ContactsWidget()
         self.web_view_stack.addWidget(self.contacts_widget)
 
+        # Opportunities Widget (New)
+        self.opportunities_widget = OpportunitiesWidget()
+        self.web_view_stack.addWidget(self.opportunities_widget)
+
         # Sidebar
         self.sidebar = Sidebar()
         self.sidebar.setFixedWidth(240)
@@ -246,6 +251,7 @@ class MainWindow(QMainWindow):
         self.sidebar.show_checklist_requested.connect(self.show_checklist_tools)
         self.sidebar.show_accounts_requested.connect(self.show_accounts_tools) # New connection
         self.sidebar.show_contacts_requested.connect(self.show_contacts_tools) # New connection
+        self.sidebar.show_opportunities_requested.connect(self.show_opportunities_tools) # New connection
 
         # Welcome widget signals
         self.welcome_widget.show_kanban_requested.connect(self.show_kanban_tools)
@@ -350,6 +356,11 @@ class MainWindow(QMainWindow):
         self.contacts_widget.load_contacts() # Refresh contacts when shown
         self.track_current_widget_usage()
 
+    def show_opportunities_tools(self):
+        self.web_view_stack.setCurrentWidget(self.opportunities_widget)
+        self.opportunities_widget.load_opportunities() # Refresh opportunities when shown
+        self.track_current_widget_usage()
+
     def track_current_widget_usage(self):
         current_widget = self.web_view_stack.currentWidget()
         service_name = "Desconocido"
@@ -370,6 +381,7 @@ class MainWindow(QMainWindow):
             elif current_widget == self.checklist_widget: service_name = "Checklist"
             elif current_widget == self.accounts_widget: service_name = "Cuentas" # New tracking
             elif current_widget == self.contacts_widget: service_name = "Contactos" # New tracking
+            elif current_widget == self.opportunities_widget: service_name = "Oportunidades" # New tracking
             elif current_widget == self.search_results_widget: service_name = "Búsqueda"
             # Add other internal widgets here
 

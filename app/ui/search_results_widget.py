@@ -76,6 +76,15 @@ class SearchResultsWidget(QWidget):
                     content = result['content']
                     highlighted_content = self.highlight_text(content, query)
                     label.setText(f"({result['source']}):<br>{highlighted_content}")
+                elif result_type == 'opportunity':
+                    title = result['title']
+                    requirement = result['requirement'] if result['requirement'] else ''
+                    if query.lower() in title.lower():
+                        highlighted_title = self.highlight_text(title, query)
+                        label.setText(highlighted_title)
+                    else:
+                        highlighted_requirement = self.highlight_text(requirement, query)
+                        label.setText(f"{title}<br>{highlighted_requirement}")
                 
                 item.setSizeHint(label.sizeHint())
                 self.results_list.setItemWidget(item, label)

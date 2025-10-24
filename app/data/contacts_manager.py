@@ -3,19 +3,19 @@ from datetime import datetime
 from app.data.database import get_db_connection
 from app.data import accounts_manager
 
-def add_contact(name, company, email, phone, notes, referred_by, confirmed, account_id=None, user_role="Comercial"):
+def add_contact(name, email, phone, notes, referred_by, confirmed, account_id=None, user_role="Comercial"):
     if user_role != "Comercial":
         raise PermissionError("Solo los usuarios comerciales pueden añadir contactos.")
     conn = get_db_connection()
     cursor = conn.cursor()
     created_at = datetime.now().isoformat()
     cursor.execute("""
-        INSERT INTO contacts (name, company, email, phone, notes, referred_by, confirmed, created_at, updated_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    """, (name, company, email, phone, notes, referred_by, confirmed, created_at, created_at))
+        INSERT INTO contacts (name, email, phone, notes, referred_by, confirmed, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    """, (name, email, phone, notes, referred_by, confirmed, created_at, created_at))
     contact_id = cursor.lastrowid
     if account_id:
-        add_contact_to_account(contact_id, account_id)
+        add_contact_to_account(contact_id, account_id, conn)
     conn.commit()
     conn.close()
     return contact_id
@@ -24,9 +24,9 @@ def get_all_contacts(include_deleted=False):
     conn = get_db_connection()
     cursor = conn.cursor()
     if include_deleted:
-        cursor.execute("SELECT * FROM contacts")
+        cursor.execute("SELECT id, name, email, phone, notes, referred_by, confirmed, created_at, updated_at, is_deleted, deleted_at, deleted_by FROM contacts")
     else:
-        cursor.execute("SELECT * FROM contacts WHERE is_deleted = 0")
+        cursor.execute("SELECT id, name, email, phone, notes, referred_by, confirmed, created_at, updated_at, is_deleted, deleted_at, deleted_by FROM contacts WHERE is_deleted = 0")
     contacts = cursor.fetchall()
     conn.close()
     return [dict(contact) for contact in contacts]
@@ -34,12 +34,12 @@ def get_all_contacts(include_deleted=False):
 def get_contact_by_id(contact_id):
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM contacts WHERE id = ?", (contact_id,))
+    cursor.execute("SELECT id, name, email, phone, notes, referred_by, confirmed, created_at, updated_at, is_deleted, deleted_at, deleted_by FROM contacts WHERE id = ?", (contact_id,))
     contact = cursor.fetchone()
     conn.close()
     return dict(contact) if contact else None
 
-def update_contact(contact_id, name, company, email, phone, notes, referred_by, confirmed, user_role="Comercial"):
+def update_contact(contact_id, name, email, phone, notes, referred_by, confirmed, user_role="Comercial"):
     if user_role != "Comercial":
         raise PermissionError("Solo los usuarios comerciales pueden actualizar contactos.")
     conn = get_db_connection()
@@ -47,9 +47,9 @@ def update_contact(contact_id, name, company, email, phone, notes, referred_by, 
     updated_at = datetime.now().isoformat()
     cursor.execute("""
         UPDATE contacts
-        SET name = ?, company = ?, email = ?, phone = ?, notes = ?, referred_by = ?, confirmed = ?, updated_at = ?
+        SET name = ?, email = ?, phone = ?, notes = ?, referred_by = ?, confirmed = ?, updated_at = ?
         WHERE id = ?
-    """, (name, company, email, phone, notes, referred_by, confirmed, updated_at, contact_id))
+    """, (name, email, phone, notes, referred_by, confirmed, updated_at, contact_id))
     conn.commit()
     conn.close()
 
@@ -88,12 +88,9 @@ def restore_contact(contact_id, user_role="Comercial"):
     conn.commit()
     conn.close()
 
-def add_contact_to_account(contact_id, account_id):
-    conn = get_db_connection()
+def add_contact_to_account(contact_id, account_id, conn):
     cursor = conn.cursor()
     cursor.execute("INSERT INTO contact_accounts (contact_id, account_id) VALUES (?, ?)", (contact_id, account_id))
-    conn.commit()
-    conn.close()
 
 def remove_contact_from_account(contact_id, account_id):
     conn = get_db_connection()
@@ -106,7 +103,7 @@ def get_accounts_for_contact(contact_id):
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("""
-        SELECT a.id, a.name, a.company
+        SELECT a.id, a.name
         FROM accounts a
         JOIN contact_accounts ca ON a.id = ca.account_id
         WHERE ca.contact_id = ?

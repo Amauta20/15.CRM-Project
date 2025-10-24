@@ -36,8 +36,8 @@ class ContactsWidget(QWidget):
 
         # Table for contacts
         self.contacts_table = QTableWidget()
-        self.contacts_table.setColumnCount(11)
-        self.contacts_table.setHorizontalHeaderLabels(["ID", "Nombre", "Empresa", "Email", "Teléfono", "Confirmado", "Notas", "Referido por", "Cuenta", "Creado", "Acciones"])
+        self.contacts_table.setColumnCount(10)
+        self.contacts_table.setHorizontalHeaderLabels(["ID", "Nombre", "Email", "Teléfono", "Confirmado", "Notas", "Referido por", "Cuenta", "Creado", "Acciones"])
         self.contacts_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.contacts_table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
         self.contacts_table.setSelectionMode(QTableWidget.SelectionMode.SingleSelection)
@@ -63,22 +63,21 @@ class ContactsWidget(QWidget):
             self.contacts_table.insertRow(row_num)
             self.contacts_table.setItem(row_num, 0, QTableWidgetItem(str(contact["id"])))
             self.contacts_table.setItem(row_num, 1, QTableWidgetItem(contact["name"]))
-            self.contacts_table.setItem(row_num, 2, QTableWidgetItem(contact["company"] or ""))
-            self.contacts_table.setItem(row_num, 3, QTableWidgetItem(contact["email"] or ""))
-            self.contacts_table.setItem(row_num, 4, QTableWidgetItem(contact["phone"] or ""))
+            self.contacts_table.setItem(row_num, 2, QTableWidgetItem(contact["email"] or ""))
+            self.contacts_table.setItem(row_num, 3, QTableWidgetItem(contact["phone"] or ""))
             confirmed_item = QTableWidgetItem()
             confirmed_item.setCheckState(Qt.CheckState.Checked if contact["confirmed"] else Qt.CheckState.Unchecked)
-            self.contacts_table.setItem(row_num, 5, confirmed_item)
-            self.contacts_table.setItem(row_num, 6, QTableWidgetItem(contact["notes"] or ""))
-            self.contacts_table.setItem(row_num, 7, QTableWidgetItem(contact["referred_by"] or ""))
+            self.contacts_table.setItem(row_num, 4, confirmed_item)
+            self.contacts_table.setItem(row_num, 5, QTableWidgetItem(contact["notes"] or ""))
+            self.contacts_table.setItem(row_num, 6, QTableWidgetItem(contact["referred_by"] or ""))
 
             # Display associated account
             accounts = contacts_manager.get_accounts_for_contact(contact["id"])
             account_names = ", ".join([acc["name"] for acc in accounts])
-            self.contacts_table.setItem(row_num, 8, QTableWidgetItem(account_names))
+            self.contacts_table.setItem(row_num, 7, QTableWidgetItem(account_names))
 
             created_at = datetime.fromisoformat(contact["created_at"]).strftime(datetime_format)
-            self.contacts_table.setItem(row_num, 9, QTableWidgetItem(created_at))
+            self.contacts_table.setItem(row_num, 8, QTableWidgetItem(created_at))
             
             # Add action buttons
             actions_widget = QWidget()
@@ -97,7 +96,7 @@ class ContactsWidget(QWidget):
             actions_layout.addWidget(delete_button)
             
             actions_layout.setContentsMargins(0, 0, 0, 0)
-            self.contacts_table.setCellWidget(row_num, 10, actions_widget)
+            self.contacts_table.setCellWidget(row_num, 9, actions_widget)
 
 
 
@@ -116,10 +115,10 @@ class ContactsWidget(QWidget):
     def add_contact(self):
         dialog = AddContactDialog(self)
         if dialog.exec():
-            name, company, email, phone, notes, referred_by, confirmed, account_id = dialog.get_contact_data()
+            name, email, phone, notes, referred_by, confirmed, account_id = dialog.get_contact_data()
             if name:
                 try:
-                    contacts_manager.add_contact(name, company, email, phone, notes, referred_by, confirmed, account_id, user_role="Comercial")
+                    contacts_manager.add_contact(name, email, phone, notes, referred_by, confirmed, account_id, user_role="Comercial")
                     self.load_contacts()
                 except PermissionError as e:
                     QMessageBox.warning(self, "Permiso Denegado", str(e))
@@ -131,10 +130,10 @@ class ContactsWidget(QWidget):
         if contact:
             dialog = EditContactDialog(contact, self)
             if dialog.exec():
-                name, company, email, phone, notes, referred_by, confirmed, account_id = dialog.get_contact_data()
+                name, email, phone, notes, referred_by, confirmed, account_id = dialog.get_contact_data()
                 if name:
                     try:
-                        contacts_manager.update_contact(contact_id, name, company, email, phone, notes, referred_by, confirmed, account_id, user_role="Comercial")
+                        contacts_manager.update_contact(contact_id, name, email, phone, notes, referred_by, confirmed, user_role="Comercial")
                         self.load_contacts()
                     except PermissionError as e:
                         QMessageBox.warning(self, "Permiso Denegado", str(e))

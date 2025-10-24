@@ -28,12 +28,6 @@ class EditContactDialog(QDialog):
         self.layout.addWidget(self.name_label)
         self.layout.addWidget(self.name_input)
 
-        # Company
-        self.company_label = QLabel("Empresa:")
-        self.company_input = QLineEdit()
-        self.layout.addWidget(self.company_label)
-        self.layout.addWidget(self.company_input)
-
         # Email
         self.email_label = QLabel("Email:")
         self.email_input = QLineEdit()
@@ -45,8 +39,6 @@ class EditContactDialog(QDialog):
         self.phone_input = QLineEdit()
         self.layout.addWidget(self.phone_label)
         self.layout.addWidget(self.phone_input)
-
-
 
         # Referred By
         self.referred_by_label = QLabel("Referido por:")
@@ -84,7 +76,6 @@ class EditContactDialog(QDialog):
 
     def load_contact_data(self):
         self.name_input.setText(self.contact_data["name"])
-        self.company_input.setText(self.contact_data["company"] or "")
         self.email_input.setText(self.contact_data["email"] or "")
         self.phone_input.setText(self.contact_data["phone"] or "")
         self.referred_by_input.setText(self.contact_data["referred_by"] or "")
@@ -99,12 +90,9 @@ class EditContactDialog(QDialog):
             if index != -1:
                 self.account_combo.setCurrentIndex(index)
 
-
-
     def get_contact_data(self):
         return (
             self.name_input.text().strip(),
-            self.company_input.text().strip() if self.company_input.text().strip() else None,
             self.email_input.text().strip() if self.email_input.text().strip() else None,
             self.phone_input.text().strip() if self.phone_input.text().strip() else None,
             self.notes_input.toPlainText().strip() if self.notes_input.toPlainText().strip() else None,

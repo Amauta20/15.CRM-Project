@@ -2,6 +2,8 @@ import openpyxl
 from openpyxl.styles import Font, PatternFill
 import datetime
 from app.utils import time_utils
+from app.opportunities.opportunities_manager import get_opportunity_by_id
+from app.data.contacts_manager import get_contact_by_id
 
 def generate_excel_report(report_data, file_path):
     workbook = openpyxl.Workbook()
@@ -81,3 +83,31 @@ def generate_excel_report(report_data, file_path):
         sheet.column_dimensions[column].width = adjusted_width
 
     workbook.save(file_path)
+
+def generate_proposal_document(opportunity_id, file_path):
+    opportunity = get_opportunity_by_id(opportunity_id)
+    if not opportunity:
+        return False
+
+    contact = None
+    if opportunity['contact_id']:
+        contact = get_contact_by_id(opportunity['contact_id'])
+
+    with open(file_path, "w", encoding="utf-8") as f:
+        f.write(f"--- Propuesta para la Oportunidad: {opportunity['title']} ---\n\n")
+        f.write(f"Requerimiento: {opportunity['requirement']}\n")
+        f.write(f"Monto: {opportunity['amount']} {opportunity['currency'] or 'USD'}\n")
+        f.write(f"Fase: {opportunity['phase']}\n")
+        f.write(f"Fecha de Entrega: {opportunity['delivery_date']}\n")
+        f.write(f"Probabilidad de Éxito: {opportunity['success_probability']}%\n")
+        f.write(f"Creado el: {time_utils.format_datetime(time_utils.from_utc(datetime.datetime.fromisoformat(opportunity['created_at'].replace('Z', '+00:00'))))}\n")
+        f.write(f"Última Actualización: {time_utils.format_datetime(time_utils.from_utc(datetime.datetime.fromisoformat(opportunity['updated_at'].replace('Z', '+00:00'))))}\n")
+
+        if contact:
+            f.write(f"\n--- Información de Contacto ---\n")
+            f.write(f"Nombre: {contact['name']}\n")
+            f.write(f"Email: {contact['email'] or 'N/A'}\n")
+            f.write(f"Teléfono: {contact['phone'] or 'N/A'}\n")
+
+        f.write(f"\n---------------------------------------\n")
+    return True

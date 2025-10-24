@@ -9,6 +9,13 @@ class AddContactDialog(QDialog):
 
     def init_ui(self):
         self.layout = QVBoxLayout(self)
+
+        # Account
+        self.account_label = QLabel("Cuenta:")
+        self.account_combo = QComboBox()
+        self.layout.addWidget(self.account_label)
+        self.layout.addWidget(self.account_combo)
+
         self.load_accounts()
 
     def load_accounts(self):
@@ -24,12 +31,6 @@ class AddContactDialog(QDialog):
         self.layout.addWidget(self.name_label)
         self.layout.addWidget(self.name_input)
 
-        # Company
-        self.company_label = QLabel("Empresa:")
-        self.company_input = QLineEdit()
-        self.layout.addWidget(self.company_label)
-        self.layout.addWidget(self.company_input)
-
         # Email
         self.email_label = QLabel("Email:")
         self.email_input = QLineEdit()
@@ -42,26 +43,15 @@ class AddContactDialog(QDialog):
         self.layout.addWidget(self.phone_label)
         self.layout.addWidget(self.phone_input)
 
-
-
         # Referred By
         self.referred_by_label = QLabel("Referido por:")
         self.referred_by_input = QLineEdit()
         self.layout.addWidget(self.referred_by_label)
         self.layout.addWidget(self.referred_by_input)
 
-        # Account
-        self.account_label = QLabel("Cuenta:")
-        self.account_combo = QComboBox()
-        self.layout.addWidget(self.account_label)
-        self.layout.addWidget(self.account_combo)
-
-
-
         # Confirmed
         self.confirmed_checkbox = QCheckBox("Confirmado")
         self.layout.addWidget(self.confirmed_checkbox)
-
 
         # Notes
         self.notes_label = QLabel("Notas:")
@@ -81,12 +71,9 @@ class AddContactDialog(QDialog):
 
         self.layout.addLayout(self.buttons_layout)
 
-
-
     def get_contact_data(self):
         return (
             self.name_input.text().strip(),
-            self.company_input.text().strip() if self.company_input.text().strip() else None,
             self.email_input.text().strip() if self.email_input.text().strip() else None,
             self.phone_input.text().strip() if self.phone_input.text().strip() else None,
             self.notes_input.toPlainText().strip() if self.notes_input.toPlainText().strip() else None,

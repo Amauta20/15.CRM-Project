@@ -8,6 +8,7 @@ def rebuild_fts_indexes():
     try:
         cursor.execute("INSERT INTO notes_fts(notes_fts) VALUES('rebuild');")
         cursor.execute("INSERT INTO kanban_cards_fts(kanban_cards_fts) VALUES('rebuild');")
+        cursor.execute("INSERT INTO opportunities_fts(opportunities_fts) VALUES('rebuild');")
         conn.commit()
         print("FTS indexes rebuilt successfully.")
     except Exception as e:
@@ -50,6 +51,20 @@ def search_all(query):
     """
     kanban_cards = conn.execute(kanban_query, (fts_query,)).fetchall()
     results.extend(kanban_cards)
+
+    # Search opportunities_fts
+    opportunities_query = """
+        SELECT 
+            'opportunity' as type, 
+            o.id, 
+            o.title, 
+            o.requirement
+        FROM opportunities o
+        JOIN opportunities_fts fts ON o.id = fts.rowid
+        WHERE fts.opportunities_fts MATCH ?
+    """
+    opportunities = conn.execute(opportunities_query, (fts_query,)).fetchall()
+    results.extend(opportunities)
 
     conn.close()
     return results
