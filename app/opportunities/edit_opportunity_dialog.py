@@ -1,4 +1,5 @@
-from PyQt6.QtWidgets import QDialog, QVBoxLayout, QLineEdit, QPushButton, QFormLayout, QDialogButtonBox, QComboBox, QTextEdit
+from PyQt6.QtWidgets import QDialog, QVBoxLayout, QLineEdit, QPushButton, QFormLayout, QDialogButtonBox, QComboBox, QTextEdit, QCheckBox, QDateEdit, QSpinBox
+from PyQt6.QtCore import QDate
 from app.opportunities.opportunities_manager import update_opportunity, get_opportunity_by_id
 from app.data.accounts_manager import get_all_accounts
 from app.data.contacts_manager import get_contacts_for_account
@@ -29,10 +30,22 @@ class EditOpportunityDialog(QDialog):
         self.contact_input = QComboBox()
         self.form_layout.addRow("Contacto:", self.contact_input)
 
+        self.delivery_date_input = QDateEdit()
+        self.delivery_date_input.setCalendarPopup(True)
+        self.form_layout.addRow("Fecha de Entrega:", self.delivery_date_input)
+
+        self.success_probability_input = QSpinBox()
+        self.success_probability_input.setRange(0, 100)
+        self.success_probability_input.setSuffix("%")
+        self.form_layout.addRow("Probabilidad de Éxito:", self.success_probability_input)
+
         self.phase_input = QComboBox()
         self.phases = ["Contacto Inicial", "Calificación", "Propuesta", "Negociación", "Ganada", "Perdida"]
         self.phase_input.addItems(self.phases)
         self.form_layout.addRow("Fase:", self.phase_input)
+
+        self.status_checkbox = QCheckBox("Activa")
+        self.form_layout.addRow("Estado:", self.status_checkbox)
         
         self.layout.addLayout(self.form_layout)
         
@@ -67,6 +80,13 @@ class EditOpportunityDialog(QDialog):
             self.requirement_input.setPlainText(opportunity['requirement'])
             self.amount_input.setText(str(opportunity['amount']))
 
+            # Set delivery date and success probability
+            if opportunity['delivery_date']:
+                self.delivery_date_input.setDate(QDate.fromString(opportunity['delivery_date'], "yyyy-MM-dd"))
+            else:
+                self.delivery_date_input.setDate(QDate.currentDate())
+            self.success_probability_input.setValue(int(opportunity['success_probability']) if opportunity['success_probability'] else 0)
+
             # Set selected account
             account_index = self.account_input.findData(opportunity['account_id'])
             if account_index != -1:
@@ -79,14 +99,20 @@ class EditOpportunityDialog(QDialog):
                 self.contact_input.setCurrentIndex(contact_index)
 
             if opportunity['phase'] in self.phases:
-                self.phase_input.setCurrentIndex(self.phases.index(opportunity['phase']))            
+                self.phase_input.setCurrentIndex(self.phases.index(opportunity['phase']))
+            
+            self.status_checkbox.setChecked(opportunity['status'] == "Activa")
+
     def accept(self):
         title = self.title_input.text()
         requirement = self.requirement_input.toPlainText()
         amount = self.amount_input.text()
         phase = self.phase_input.currentText()
+        status = "Activa" if self.status_checkbox.isChecked() else "Inactiva"
         account_id = self.account_input.currentData()
         contact_id = self.contact_input.currentData()
+        delivery_date = self.delivery_date_input.date().toString("yyyy-MM-dd")
+        success_probability = self.success_probability_input.value()
         
         if title:
             update_opportunity(
@@ -96,7 +122,10 @@ class EditOpportunityDialog(QDialog):
                 requirement=requirement,
                 amount=float(amount) if amount else None,
                 phase=phase,
+                status=status,
                 account_id=account_id,
-                contact_id=contact_id
+                contact_id=contact_id,
+                delivery_date=delivery_date,
+                success_probability=success_probability
             )
             super().accept()

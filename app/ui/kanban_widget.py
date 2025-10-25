@@ -146,18 +146,30 @@ class KanbanWidget(QWidget):
                     f"{card['title']}\n"
                     f"Entregar: {assignee_value} | {due_date_value}"
                 )
-            elif column_name == "En Progreso":
+            if column_name == "En Progreso":
+                started_at_str = "N/A"
+                if card['started_at']:
+                    started_at_str = time_utils.format_datetime(time_utils.datetime_from_qdatetime(QDateTime.fromString(card['started_at'], Qt.DateFormat.ISODate)))
+
                 item_text = (
                     f"{card['title']}\n"
                     f"Entregar: {assignee_value} | {due_date_value}\n"
-                    f"Iniciado: {time_utils.format_datetime(time_utils.datetime_from_qdatetime(QDateTime.fromString(card['started_at'], Qt.DateFormat.ISODate)))}"
+                    f"Iniciado: {started_at_str}"
                 )
             else: # Assuming other columns are 'Done' or similar
+                started_at_str = "N/A"
+                if card['started_at']:
+                    started_at_str = time_utils.format_datetime(time_utils.datetime_from_qdatetime(QDateTime.fromString(card['started_at'], Qt.DateFormat.ISODate)))
+                
+                finished_at_str = "N/A"
+                if card['finished_at']:
+                    finished_at_str = time_utils.format_datetime(time_utils.datetime_from_qdatetime(QDateTime.fromString(card['finished_at'], Qt.DateFormat.ISODate)))
+
                 item_text = (
                     f"{card['title']}\n"
                     f"Encargado: {assignee_value} {due_date_value}\n"
-                    f"Iniciada: {time_utils.format_datetime(time_utils.datetime_from_qdatetime(QDateTime.fromString(card['started_at'], Qt.DateFormat.ISODate)))}\n"
-                    f"Finalizada: {time_utils.format_datetime(time_utils.datetime_from_qdatetime(QDateTime.fromString(card['finished_at'], Qt.DateFormat.ISODate)))}"
+                    f"Iniciada: {started_at_str}\n"
+                    f"Finalizada: {finished_at_str}"
                 )
             item = QListWidgetItem(item_text)
             item.setData(Qt.ItemDataRole.UserRole, card['id']) # Store card_id in item data

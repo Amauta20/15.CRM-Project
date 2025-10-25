@@ -1,6 +1,6 @@
 import sqlite3
 import feedparser
-from app.db.database import get_db_connection
+from .database import get_db_connection
 
 def add_feed(name, url):
     """Adds a new RSS feed to the database."""

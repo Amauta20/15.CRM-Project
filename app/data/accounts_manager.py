@@ -1,7 +1,7 @@
 from .database import get_db_connection
 from datetime import datetime
 
-def add_account(name, company=None, email=None, phone=None, address=None, notes=None, referred_by=None, user_role="", classification="Lead", status="Por contactar"):
+def add_account(name, company=None, email=None, phone=None, address=None, notes=None, referred_by=None, user_role="", classification="Lead", status="Por contactar", ruc=None):
     if user_role != "Comercial":
         raise PermissionError("Solo los usuarios con rol 'Comercial' pueden añadir cuentas.")
 
@@ -9,8 +9,8 @@ def add_account(name, company=None, email=None, phone=None, address=None, notes=
     cursor = conn.cursor()
     now = datetime.now().isoformat()
     cursor.execute(
-        "INSERT INTO accounts (name, company, email, phone, address, notes, referred_by, classification, status, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        (name, company, email, phone, address, notes, referred_by, classification, status, now, now)
+        "INSERT INTO accounts (name, company, email, phone, address, notes, referred_by, classification, status, created_at, updated_at, ruc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        (name, company, email, phone, address, notes, referred_by, classification, status, now, now, ruc)
     )
     conn.commit()
     account_id = cursor.lastrowid
@@ -41,15 +41,15 @@ def get_account_by_id(account_id, include_deleted=False):
     conn.close()
     return account
 
-def update_account(account_id, name, company=None, email=None, phone=None, address=None, notes=None, referred_by=None, classification=None, status=None, user_role=""): # Added user_role
+def update_account(account_id, name, company=None, email=None, phone=None, address=None, notes=None, referred_by=None, classification=None, status=None, user_role="", ruc=None): # Added user_role
     if user_role != "Comercial":
         raise PermissionError("Solo los usuarios con rol 'Comercial' pueden editar cuentas.")
 
     conn = get_db_connection()
     now = datetime.now().isoformat()
     conn.execute(
-        "UPDATE accounts SET name = ?, company = ?, email = ?, phone = ?, address = ?, notes = ?, referred_by = ?, classification = ?, status = ?, updated_at = ? WHERE id = ?",
-        (name, company, email, phone, address, notes, referred_by, classification, status, now, account_id)
+        "UPDATE accounts SET name = ?, company = ?, email = ?, phone = ?, address = ?, notes = ?, referred_by = ?, classification = ?, status = ?, updated_at = ?, ruc = ? WHERE id = ?",
+        (name, company, email, phone, address, notes, referred_by, classification, status, now, ruc, account_id)
     )
     conn.commit()
     conn.close()

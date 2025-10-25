@@ -53,7 +53,8 @@ def create_schema():
         updated_at TEXT,
         is_deleted INTEGER DEFAULT 0,
         deleted_at TEXT,
-        deleted_by INTEGER
+        deleted_by INTEGER,
+        ruc TEXT UNIQUE
     );
     """)
 
@@ -108,6 +109,10 @@ def create_schema():
         cursor.execute("ALTER TABLE accounts ADD COLUMN status TEXT;")
     if 'referred_by' not in columns:
         cursor.execute("ALTER TABLE accounts ADD COLUMN referred_by TEXT;")
+    if 'ruc' not in columns:
+        cursor.execute("ALTER TABLE accounts ADD COLUMN ruc TEXT;")
+
+    cursor.execute("CREATE UNIQUE INDEX IF NOT EXISTS idx_accounts_ruc ON accounts (ruc);")
 
     # Add new columns to services if they don't exist
     cursor.execute("PRAGMA table_info(services);")

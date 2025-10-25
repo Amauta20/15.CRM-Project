@@ -3,10 +3,10 @@ import sys
 import tempfile
 
 def get_lock_file_path():
-    return os.path.join(tempfile.gettempdir(), 'infomensajero.lock')
+    return os.path.join(tempfile.gettempdir(), 'crm-project.lock')
 
 def get_arg_file_path():
-    return os.path.join(tempfile.gettempdir(), 'infomensajero.arg')
+    return os.path.join(tempfile.gettempdir(), 'crm-project.arg')
 
 def is_already_running():
     lock_file = get_lock_file_path()

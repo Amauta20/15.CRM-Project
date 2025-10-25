@@ -21,6 +21,12 @@ class AddAccountDialog(QDialog):
         self.layout.addWidget(self.company_label)
         self.layout.addWidget(self.company_input)
 
+        # RUC
+        self.ruc_label = QLabel("RUC:")
+        self.ruc_input = QLineEdit()
+        self.layout.addWidget(self.ruc_label)
+        self.layout.addWidget(self.ruc_input)
+
         # Email
         self.email_label = QLabel("Email:")
         self.email_input = QLineEdit()
@@ -96,5 +102,6 @@ class AddAccountDialog(QDialog):
             self.notes_input.toPlainText().strip() if self.notes_input.toPlainText().strip() else None,
             self.referred_by_input.text().strip() if self.referred_by_input.text().strip() else None,
             self.classification_combo.currentText(),
-            self.status_combo.currentText()
+            self.status_combo.currentText(),
+            self.ruc_input.text().strip() if self.ruc_input.text().strip() else None
         )

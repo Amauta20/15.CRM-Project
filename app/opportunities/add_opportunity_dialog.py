@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QDialog, QVBoxLayout, QLineEdit, QPushButton, QFormLayout, QDialogButtonBox, QDateEdit, QSpinBox, QComboBox, QTextEdit
+from PyQt6.QtWidgets import QDialog, QVBoxLayout, QLineEdit, QPushButton, QFormLayout, QDialogButtonBox, QDateEdit, QSpinBox, QComboBox, QTextEdit, QCheckBox
 from app.opportunities.opportunities_manager import add_opportunity
 from app.data.accounts_manager import get_all_accounts
 from app.data.contacts_manager import get_contacts_for_account
@@ -37,6 +37,14 @@ class AddOpportunityDialog(QDialog):
         self.success_probability_input.setRange(0, 100)
         self.success_probability_input.setSuffix("%")
         self.form_layout.addRow("Probabilidad de Éxito:", self.success_probability_input)
+
+        self.phase_input = QComboBox()
+        self.phase_input.addItems(["Contacto Inicial", "Calificación", "Propuesta", "Negociación", "Ganada", "Perdida"])
+        self.form_layout.addRow("Fase:", self.phase_input)
+
+        self.status_checkbox = QCheckBox("Activa")
+        self.status_checkbox.setChecked(True)
+        self.form_layout.addRow("Estado:", self.status_checkbox)
         
         self.layout.addLayout(self.form_layout)
         
@@ -71,6 +79,8 @@ class AddOpportunityDialog(QDialog):
         contact_id = self.contact_input.currentData()
         delivery_date = self.delivery_date_input.date().toString("yyyy-MM-dd")
         success_probability = self.success_probability_input.value()
+        phase = self.phase_input.currentText()
+        status = "Activa" if self.status_checkbox.isChecked() else "Inactiva"
         
         if title:
             add_opportunity(
@@ -81,6 +91,8 @@ class AddOpportunityDialog(QDialog):
                 account_id=account_id,
                 contact_id=contact_id,
                 delivery_date=delivery_date,
-                success_probability=success_probability
+                success_probability=success_probability,
+                phase=phase,
+                status=status
             )
             super().accept()

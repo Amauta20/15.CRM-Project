@@ -24,6 +24,12 @@ class EditAccountDialog(QDialog):
         self.layout.addWidget(self.company_label)
         self.layout.addWidget(self.company_input)
 
+        # RUC
+        self.ruc_label = QLabel("RUC:")
+        self.ruc_input = QLineEdit()
+        self.layout.addWidget(self.ruc_label)
+        self.layout.addWidget(self.ruc_input)
+
         # Email
         self.email_label = QLabel("Email:")
         self.email_input = QLineEdit()
@@ -83,6 +89,7 @@ class EditAccountDialog(QDialog):
     def load_account_data(self):
         self.name_input.setText(self.account_data["name"])
         self.company_input.setText(self.account_data["company"] or "")
+        self.ruc_input.setText(self.account_data["ruc"] or "")
         self.email_input.setText(self.account_data["email"] or "")
         self.phone_input.setText(self.account_data["phone"] or "")
         self.address_input.setText(self.account_data["address"] or "")
@@ -109,5 +116,6 @@ class EditAccountDialog(QDialog):
             self.notes_input.toPlainText().strip() if self.notes_input.toPlainText().strip() else None,
             self.referred_by_input.text().strip() if self.referred_by_input.text().strip() else None,
             self.classification_combo.currentText(),
-            self.status_combo.currentText()
+            self.status_combo.currentText(),
+            self.ruc_input.text().strip() if self.ruc_input.text().strip() else None
         )

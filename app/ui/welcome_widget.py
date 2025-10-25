@@ -18,7 +18,7 @@ class WelcomeWidget(QWidget):
         self.layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.layout.setSpacing(20)
 
-        self.welcome_label = QLabel("¡Bienvenido a InfoMensajero!")
+        self.welcome_label = QLabel("¡Bienvenido a CRM-Project!")
         self.welcome_label.setStyleSheet("font-size: 24px; font-weight: bold;")
         self.welcome_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.layout.addWidget(self.welcome_label)

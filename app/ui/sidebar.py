@@ -15,6 +15,7 @@ class Sidebar(QWidget):
     show_accounts_requested = Signal() # New signal to show AccountsWidget
     show_contacts_requested = Signal() # New signal to show ContactsWidget
     show_opportunities_requested = Signal()
+    show_opportunities_kanban_requested = Signal()
 
     def __init__(self):
         super().__init__()
@@ -66,6 +67,10 @@ class Sidebar(QWidget):
         self.opportunities_button = QPushButton("Oportunidades")
         self.opportunities_button.clicked.connect(self.show_opportunities_requested.emit)
         self.layout.addWidget(self.opportunities_button)
+
+        self.opportunities_kanban_button = QPushButton("Kanban de Oportunidades")
+        self.opportunities_kanban_button.clicked.connect(self.show_opportunities_kanban_requested.emit)
+        self.layout.addWidget(self.opportunities_kanban_button)
 
     # --- Service Management Methods ---
     def open_select_service_dialog(self):

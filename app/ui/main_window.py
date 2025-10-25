@@ -23,6 +23,7 @@ from app.metrics.metrics_manager import MetricsManager
 from app.ui.accounts_widget import AccountsWidget # New import
 from app.ui.contacts_widget import ContactsWidget # New import
 from app.opportunities.opportunities_widget import OpportunitiesWidget
+from app.ui.opportunities_kanban_widget import OpportunitiesKanbanWidget
 
 from app.ui.select_service_dialog import SelectServiceDialog
 from app.ui.unified_settings_dialog import UnifiedSettingsDialog
@@ -166,7 +167,7 @@ class MainWindow(QMainWindow):
             # Add more services here
         }
 
-        self.setWindowTitle("InfoMensajero")
+        self.setWindowTitle("CRM-Project")
         self.setGeometry(100, 100, 1280, 720)
 
         # Main layout
@@ -230,6 +231,10 @@ class MainWindow(QMainWindow):
         self.opportunities_widget = OpportunitiesWidget()
         self.web_view_stack.addWidget(self.opportunities_widget)
 
+        # Opportunities Kanban Widget (New)
+        self.opportunities_kanban_widget = OpportunitiesKanbanWidget()
+        self.web_view_stack.addWidget(self.opportunities_kanban_widget)
+
         # Sidebar
         self.sidebar = Sidebar()
         self.sidebar.setFixedWidth(240)
@@ -252,6 +257,7 @@ class MainWindow(QMainWindow):
         self.sidebar.show_accounts_requested.connect(self.show_accounts_tools) # New connection
         self.sidebar.show_contacts_requested.connect(self.show_contacts_tools) # New connection
         self.sidebar.show_opportunities_requested.connect(self.show_opportunities_tools) # New connection
+        self.sidebar.show_opportunities_kanban_requested.connect(self.show_opportunities_kanban_tools) # New connection
 
         # Welcome widget signals
         self.welcome_widget.show_kanban_requested.connect(self.show_kanban_tools)
@@ -361,6 +367,11 @@ class MainWindow(QMainWindow):
         self.opportunities_widget.load_opportunities() # Refresh opportunities when shown
         self.track_current_widget_usage()
 
+    def show_opportunities_kanban_tools(self):
+        self.web_view_stack.setCurrentWidget(self.opportunities_kanban_widget)
+        self.opportunities_kanban_widget.load_opportunities() # Refresh opportunities when shown
+        self.track_current_widget_usage()
+
     def track_current_widget_usage(self):
         current_widget = self.web_view_stack.currentWidget()
         service_name = "Desconocido"
@@ -382,6 +393,7 @@ class MainWindow(QMainWindow):
             elif current_widget == self.accounts_widget: service_name = "Cuentas" # New tracking
             elif current_widget == self.contacts_widget: service_name = "Contactos" # New tracking
             elif current_widget == self.opportunities_widget: service_name = "Oportunidades" # New tracking
+            elif current_widget == self.opportunities_kanban_widget: service_name = "Oportunidades Kanban" # New tracking
             elif current_widget == self.search_results_widget: service_name = "Búsqueda"
             # Add other internal widgets here
 
@@ -428,6 +440,27 @@ class MainWindow(QMainWindow):
         """
         Loads a service in its own profile and view, creating it if it doesn't exist.
         """
+        if url.startswith("internal://"):
+            service_name = url.replace("internal://", "")
+            if service_name == "notes":
+                self.show_notes_tools()
+            elif service_name == "kanban":
+                self.show_kanban_tools()
+            elif service_name == "checklist":
+                self.show_checklist_tools()
+            elif service_name == "accounts":
+                self.show_accounts_tools()
+            elif service_name == "contacts":
+                self.show_contacts_tools()
+            elif service_name == "opportunities":
+                self.show_opportunities_tools()
+            elif service_name == "opportunities_kanban":
+                self.show_opportunities_kanban_tools()
+            elif service_name == "welcome":
+                self.web_view_stack.setCurrentWidget(self.welcome_widget)
+                self.track_current_widget_usage()
+            return
+
         service_details = service_manager.get_service_by_profile_path(profile_path)
         if not service_details: # Handle case where service_details might not be found
             print(f"Error: Service details not found for profile_path: {profile_path}")

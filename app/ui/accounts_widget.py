@@ -36,8 +36,8 @@ class AccountsWidget(QWidget):
 
         # Table for accounts
         self.accounts_table = QTableWidget()
-        self.accounts_table.setColumnCount(12)
-        self.accounts_table.setHorizontalHeaderLabels(["ID", "Nombre", "Empresa", "Email", "Teléfono", "Dirección", "Notas", "Referido por", "Clasificación", "Estado", "Creado", "Acciones"])
+        self.accounts_table.setColumnCount(13)
+        self.accounts_table.setHorizontalHeaderLabels(["ID", "Nombre", "Empresa", "RUC", "Email", "Teléfono", "Dirección", "Notas", "Referido por", "Clasificación", "Estado", "Creado", "Acciones"])
         self.accounts_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.accounts_table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
         self.accounts_table.setSelectionMode(QTableWidget.SelectionMode.SingleSelection)
@@ -64,18 +64,19 @@ class AccountsWidget(QWidget):
             self.accounts_table.setItem(row_num, 0, QTableWidgetItem(str(account["id"])))
             self.accounts_table.setItem(row_num, 1, QTableWidgetItem(account["name"]))
             self.accounts_table.setItem(row_num, 2, QTableWidgetItem(account["company"] or ""))
-            self.accounts_table.setItem(row_num, 3, QTableWidgetItem(account["email"] or ""))
-            self.accounts_table.setItem(row_num, 4, QTableWidgetItem(account["phone"] or ""))
-            self.accounts_table.setItem(row_num, 5, QTableWidgetItem(account["address"] or ""))
-            self.accounts_table.setItem(row_num, 6, QTableWidgetItem(account["notes"] or ""))
-            self.accounts_table.setItem(row_num, 7, QTableWidgetItem(account["referred_by"] or ""))
+            self.accounts_table.setItem(row_num, 3, QTableWidgetItem(account["ruc"] or ""))
+            self.accounts_table.setItem(row_num, 4, QTableWidgetItem(account["email"] or ""))
+            self.accounts_table.setItem(row_num, 5, QTableWidgetItem(account["phone"] or ""))
+            self.accounts_table.setItem(row_num, 6, QTableWidgetItem(account["address"] or ""))
+            self.accounts_table.setItem(row_num, 7, QTableWidgetItem(account["notes"] or ""))
+            self.accounts_table.setItem(row_num, 8, QTableWidgetItem(account["referred_by"] or ""))
 
             # Classification ComboBox
             classification_combo = QComboBox()
             classification_combo.addItems(["Lead", "Cliente"])
             classification_combo.setCurrentText(account["classification"])
             classification_combo.currentTextChanged.connect(lambda text, row=row_num: self.update_account_classification_and_status(row))
-            self.accounts_table.setCellWidget(row_num, 8, classification_combo)
+            self.accounts_table.setCellWidget(row_num, 9, classification_combo)
 
             # Status ComboBox
             status_combo = QComboBox()
@@ -85,10 +86,10 @@ class AccountsWidget(QWidget):
                 status_combo.addItems(["Activo", "Inactivo"])
             status_combo.setCurrentText(account["status"])
             status_combo.currentTextChanged.connect(lambda text, row=row_num: self.update_account_classification_and_status(row))
-            self.accounts_table.setCellWidget(row_num, 9, status_combo)
+            self.accounts_table.setCellWidget(row_num, 10, status_combo)
 
             created_at = datetime.fromisoformat(account["created_at"]).strftime(datetime_format)
-            self.accounts_table.setItem(row_num, 10, QTableWidgetItem(created_at))
+            self.accounts_table.setItem(row_num, 11, QTableWidgetItem(created_at))
             
             # Add action buttons
             actions_widget = QWidget()
@@ -107,7 +108,7 @@ class AccountsWidget(QWidget):
             actions_layout.addWidget(delete_button)
             
             actions_layout.setContentsMargins(0, 0, 0, 0)
-            self.accounts_table.setCellWidget(row_num, 11, actions_widget)
+            self.accounts_table.setCellWidget(row_num, 12, actions_widget)
 
     def update_account_classification_and_status(self, row):
         account_id = int(self.accounts_table.item(row, 0).text())
@@ -138,7 +139,8 @@ class AccountsWidget(QWidget):
             account['referred_by'],
             classification,
             status,
-            user_role="Comercial"
+            user_role="Comercial",
+            ruc=account['ruc']
         )
 
 
@@ -156,10 +158,10 @@ class AccountsWidget(QWidget):
     def add_account(self):
         dialog = AddAccountDialog(self)
         if dialog.exec():
-            name, company, email, phone, address, notes, referred_by, classification, status = dialog.get_account_data()
+            name, company, email, phone, address, notes, referred_by, classification, status, ruc = dialog.get_account_data()
             if name:
                 try:
-                    accounts_manager.add_account(name, company, email, phone, address, notes, referred_by, "Comercial", classification, status)
+                    accounts_manager.add_account(name, company, email, phone, address, notes, referred_by, "Comercial", classification, status, ruc)
                     self.load_accounts()
                 except PermissionError as e:
                     QMessageBox.warning(self, "Permiso Denegado", str(e))
@@ -171,10 +173,10 @@ class AccountsWidget(QWidget):
         if account:
             dialog = EditAccountDialog(account, self)
             if dialog.exec():
-                name, company, email, phone, address, notes, referred_by, classification, status = dialog.get_account_data()
+                name, company, email, phone, address, notes, referred_by, classification, status, ruc = dialog.get_account_data()
                 if name:
                     try:
-                        accounts_manager.update_account(account_id, name, company, email, phone, address, notes, referred_by, classification, status, user_role="Comercial")
+                        accounts_manager.update_account(account_id, name, company, email, phone, address, notes, referred_by, classification, status, "Comercial", ruc)
                         self.load_accounts()
                     except PermissionError as e:
                         QMessageBox.warning(self, "Permiso Denegado", str(e))

@@ -30,6 +30,10 @@ class MetricsManager:
             ("Pomodoro", "internal://pomodoro", "pomodoro_icon.png"),
             ("Búsqueda", "internal://search", "search_icon.png"),
             ("Bienvenida", "internal://welcome", "welcome_icon.png"),
+            ("Cuentas", "internal://accounts", "accounts_icon.png"),
+            ("Contactos", "internal://contacts", "contacts_icon.png"),
+            ("Oportunidades", "internal://opportunities", "opportunities_icon.png"),
+            ("Oportunidades Kanban", "internal://opportunities_kanban", "kanban_icon.png"),
         ]
         for name, url, icon in internal_tools:
             if not service_manager.get_service_by_name(name):
